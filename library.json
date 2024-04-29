@@ -1,0 +1,32 @@
+{
+    "name": "KukaVar",
+    "version": "1.0.0",
+    "description": "A library to read and change the value of global variables in KUKA Robots. The robot controller must be running KUKA VarProxy server (https://github.com/ImtsSrl/KUKAVARPROXY). This library is intended for ESP32 and ESP8266 devices and can be used with WiFi or Ethernet Clients.",
+    "keywords": "KUKA, industrial, robot, OpenShowVar, VarProxy",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/italo-coelho/KukaVar.git"
+    },
+    "authors":
+    [
+      {
+        "name": "Ítalo Coelho",
+        "email": "italo.code@proton.me",
+        "url": "https://github.com/italo-coelho",
+        "maintainer": true
+      }
+    ],
+    "license": "MIT",
+    "homepage": "https://www.helloworld.org/",
+    "dependencies": 
+    {
+      "ownername/print": "~1.3.0"
+    },
+    "frameworks": "arduino",
+    "platforms": 
+    [
+        "espressif32", 
+        "espressif8266"
+    ]
+  }
