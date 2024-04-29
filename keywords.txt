@@ -1,0 +1,10 @@
+# Syntax Coloring Map for KukaVar
+
+KUKA KEYWORD1
+
+connect KEYWORD2
+connected KEYWORD2
+disconnect KEYWORD2
+
+read KEYWORD2
+write KEYWORD2

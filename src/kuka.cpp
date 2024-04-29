@@ -11,7 +11,7 @@ KUKA::KUKA(IPAddress ip, int port, Client& client)
     _id = random(0, UINT16_MAX);
 #endif //ESP32
     if(_client != nullptr)
-        _client->setTimeout(10);
+        _client->setTimeout(CLIENT_TIMEOUT);
 }
 
 KUKA::~KUKA()
@@ -125,14 +125,14 @@ String KUKA::get_response(bool verbose)
     TickType_t then = xTaskGetTickCount();
     while(!_client->available())
     {
-        if(xTaskGetTickCount() - then >= TIMEOUT)
+        if(xTaskGetTickCount() - then >= KUKA_TIMEOUT)
             break;
     }
 #else
     uint32_t then = millis();
     while(!_client->available())
     {
-        if(millis() - then >= TIMEOUT)
+        if(millis() - then >= KUKA_TIMEOUT)
             break;
         yield();
     }
@@ -140,7 +140,7 @@ String KUKA::get_response(bool verbose)
 
     if(_client->available())
     {
-        size_t bytes_read = _client->readBytes(buffer, MAX_PACKET);
+        size_t bytes_read = _client->readBytes(buffer, KUKA_MAX_PACKET);
 
         // (!HHHB) = 7 bytes
         // uint16_t var_value_len = bytes_read - 7 - 3;
