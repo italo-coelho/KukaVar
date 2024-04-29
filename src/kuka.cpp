@@ -14,6 +14,11 @@ KUKA::KUKA(IPAddress ip, int port, Client& client)
         _client->setTimeout(CLIENT_TIMEOUT);
 }
 
+KUKA::KUKA(const char* ip, int port, Client& client)
+{
+    KUKA(parseIP(ip), port, client);
+}
+
 KUKA::~KUKA()
 {
     _client->stop();
@@ -177,4 +182,36 @@ String KUKA::get_response(bool verbose)
     }
     else
         return "ERROR->Client Unavailable";
+}
+
+IPAddress KUKA::parseIP(const char* address)
+{
+    IPAddress ip;
+	uint16_t acc = 0;
+	uint8_t dots = 0;
+
+	while (*address) 
+    {
+		char c = *address++;
+		if (c >= '0' && c <= '9') 
+        {
+			acc = acc * 10 + (c - '0');
+			if (acc > 255) // Value out of [0,255]
+				break;
+		} 
+        else if (c == '.') 
+        {
+			if (dots == 3) //Too Many Dots
+				break;
+			ip[dots++] = acc;
+			acc = 0;
+		} 
+        else //Invalid Char
+			break;
+	}
+
+	if (dots == 3)
+        ip[3] = acc;
+
+	return ip;
 }

@@ -29,8 +29,11 @@ class KUKA
 
         String get_response(bool verbose = false);
 
+        IPAddress parseIP(const char* address);
+
     public:
         KUKA(IPAddress ip, int port, Client& client);
+        KUKA(const char* ip, int port, Client& client);
         ~KUKA();
 
         bool connect();
