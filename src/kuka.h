@@ -42,6 +42,8 @@ class KUKA
 
         String read(String var_name, bool verbose = false);
         bool write(String var_name, String value, bool verbose = false);
+
+        KUKA& setClient(Client& client);
 };
 
 #endif //KUKA_H

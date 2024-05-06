@@ -215,3 +215,9 @@ IPAddress KUKA::parseIP(const char* address)
 
 	return ip;
 }
+
+KUKA& KUKA::setClient(Client& client)
+{
+    _client = &client;
+    return *this;
+}
