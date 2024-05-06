@@ -6,5 +6,7 @@ connect KEYWORD2
 connected KEYWORD2
 disconnect KEYWORD2
 
+setClient KEYWORD2
+
 read KEYWORD2
 write KEYWORD2

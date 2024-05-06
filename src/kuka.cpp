@@ -24,6 +24,10 @@ KUKA::~KUKA()
     _client->stop();
 }
 
+/*
+    \brief Try to connect to the Robot Controller on the IP Address and Port specified in the constructor
+    \return Connection Success
+*/
 bool KUKA::connect()
 {
     if(_client == nullptr)
@@ -32,6 +36,9 @@ bool KUKA::connect()
     return _connected;
 }
 
+/*
+    \brief Disconnect the current Client from the Robot Controller
+*/
 void KUKA::disconnect()
 {
     if(_client == nullptr)
@@ -40,6 +47,11 @@ void KUKA::disconnect()
     _client->stop();
 }
 
+/*
+    \brief Read the Current Value of a Variable in the Robot Controller
+    \param var_name Name of the Variable
+    \param verbose If true, print the received data on Serial (DEFAULT = false)
+*/
 String KUKA::read(String var_name, bool verbose)
 {
     if(!connected())
@@ -66,6 +78,12 @@ String KUKA::read(String var_name, bool verbose)
     return get_response(verbose);
 }
 
+/*
+    \brief Change the Current Value of a Variable in the Robot Controller
+    \param var_name Name of the Variable
+    \param value New Value for the Variable
+    \param verbose If true, print the received data on Serial (DEFAULT = false)
+*/
 bool KUKA::write(String var_name, String value, bool verbose)
 {
     if(!connected())
@@ -101,6 +119,10 @@ bool KUKA::write(String var_name, String value, bool verbose)
         return false;
 }
 
+/*
+    \brief State of the Socket Connection to the Robot Controller
+    \return Connection Status
+*/
 bool KUKA::connected()
 {
     if(_client == nullptr)
@@ -109,6 +131,16 @@ bool KUKA::connected()
         _connected = _client->connected();
     return _connected;
 }
+
+/*
+    \brief Set the Network Client used to access the Robot Controller
+*/
+KUKA& KUKA::setClient(Client& client)
+{
+    _client = &client;
+    return *this;
+}
+
 
 uint8_t KUKA::pack(uint16_t value, int index)
 {
@@ -214,10 +246,4 @@ IPAddress KUKA::parseIP(const char* address)
         ip[3] = acc;
 
 	return ip;
-}
-
-KUKA& KUKA::setClient(Client& client)
-{
-    _client = &client;
-    return *this;
 }
