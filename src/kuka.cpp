@@ -113,6 +113,8 @@ bool KUKA::write(String var_name, String value, bool verbose)
     _client->flush();
 
     String response = get_response(verbose);
+    if(verbose)
+        Serial.println("[KUKA Write]: " + response);
     if(response.indexOf("ERROR->") == -1)
         return true;
     else
@@ -162,7 +164,7 @@ String KUKA::get_response(bool verbose)
     TickType_t then = xTaskGetTickCount();
     while(!_client->available())
     {
-        if(xTaskGetTickCount() - then >= KUKA_TIMEOUT)
+        if(xTaskGetTickCount() - then >= pdMS_TO_TICKS(KUKA_TIMEOUT))
             break;
     }
 #else
