@@ -32,6 +32,7 @@ class KUKA
         IPAddress parseIP(const char* address);
 
     public:
+        KUKA(String ip, int port, Client& client);
         KUKA(IPAddress ip, int port, Client& client);
         KUKA(const char* ip, int port, Client& client);
         ~KUKA();

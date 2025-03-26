@@ -16,7 +16,30 @@ KUKA::KUKA(IPAddress ip, int port, Client& client)
 
 KUKA::KUKA(const char* ip, int port, Client& client)
 {
-    KUKA(parseIP(ip), port, client);
+    _ip.fromString(ip);
+    _port = port;
+    _client = &client;
+#ifdef ESP32
+    _id = esp_random();
+#else
+    _id = random(0, UINT16_MAX);
+#endif //ESP32
+    if(_client != nullptr)
+        _client->setTimeout(CLIENT_TIMEOUT);
+}
+
+KUKA::KUKA(String ip, int port, Client& client)
+{
+    _ip.fromString(ip);
+    _port = port;
+    _client = &client;
+#ifdef ESP32
+    _id = esp_random();
+#else
+    _id = random(0, UINT16_MAX);
+#endif //ESP32
+    if(_client != nullptr)
+        _client->setTimeout(CLIENT_TIMEOUT);
 }
 
 KUKA::~KUKA()
