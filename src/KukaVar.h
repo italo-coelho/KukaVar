@@ -1,5 +1,5 @@
-#ifndef KUKA_H
-#define KUKA_H
+#ifndef KUKA_VAR_H
+#define KUKA_VAR_H
 
 #include <vector>
 #include <Client.h>
@@ -10,7 +10,7 @@
 #define CLIENT_TIMEOUT 10 //miliseconds
 #define KUKA_MAX_PACKET 1024 //bytes
 
-class KUKA
+class KukaVar
 {
     private:
         IPAddress _ip;
@@ -32,10 +32,10 @@ class KUKA
         IPAddress parseIP(const char* address);
 
     public:
-        KUKA(String ip, int port, Client& client);
-        KUKA(IPAddress ip, int port, Client& client);
-        KUKA(const char* ip, int port, Client& client);
-        ~KUKA();
+        KukaVar(String ip, int port, Client& client);
+        KukaVar(IPAddress ip, int port, Client& client);
+        KukaVar(const char* ip, int port, Client& client);
+        ~KukaVar();
 
         bool connect();
         bool connected();
@@ -44,7 +44,7 @@ class KUKA
         String read(String var_name, bool verbose = false);
         bool write(String var_name, String value, bool verbose = false);
 
-        KUKA& setClient(Client& client);
+        KukaVar& setClient(Client& client);
 };
 
-#endif //KUKA_H
+#endif //KUKA_VAR_H

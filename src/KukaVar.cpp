@@ -1,6 +1,6 @@
-#include "kuka.h"
+#include "KukaVar.h"
 
-KUKA::KUKA(IPAddress ip, int port, Client& client)
+KukaVar::KukaVar(IPAddress ip, int port, Client& client)
 {
     _ip = ip;
     _port = port;
@@ -14,7 +14,7 @@ KUKA::KUKA(IPAddress ip, int port, Client& client)
         _client->setTimeout(CLIENT_TIMEOUT);
 }
 
-KUKA::KUKA(const char* ip, int port, Client& client)
+KukaVar::KukaVar(const char* ip, int port, Client& client)
 {
     _ip.fromString(ip);
     _port = port;
@@ -28,7 +28,7 @@ KUKA::KUKA(const char* ip, int port, Client& client)
         _client->setTimeout(CLIENT_TIMEOUT);
 }
 
-KUKA::KUKA(String ip, int port, Client& client)
+KukaVar::KukaVar(String ip, int port, Client& client)
 {
     _ip.fromString(ip);
     _port = port;
@@ -42,7 +42,7 @@ KUKA::KUKA(String ip, int port, Client& client)
         _client->setTimeout(CLIENT_TIMEOUT);
 }
 
-KUKA::~KUKA()
+KukaVar::~KukaVar()
 {
     _client->stop();
 }
@@ -51,7 +51,7 @@ KUKA::~KUKA()
     \brief Try to connect to the Robot Controller on the IP Address and Port specified in the constructor
     \return Connection Success
 */
-bool KUKA::connect()
+bool KukaVar::connect()
 {
     if(_client == nullptr)
         return false;
@@ -62,7 +62,7 @@ bool KUKA::connect()
 /*
     \brief Disconnect the current Client from the Robot Controller
 */
-void KUKA::disconnect()
+void KukaVar::disconnect()
 {
     if(_client == nullptr)
         return;
@@ -75,7 +75,7 @@ void KUKA::disconnect()
     \param var_name Name of the Variable
     \param verbose If true, print the received data on Serial (DEFAULT = false)
 */
-String KUKA::read(String var_name, bool verbose)
+String KukaVar::read(String var_name, bool verbose)
 {
     if(!connected())
         return "ERROR->Disconnected";
@@ -107,7 +107,7 @@ String KUKA::read(String var_name, bool verbose)
     \param value New Value for the Variable
     \param verbose If true, print the received data on Serial (DEFAULT = false)
 */
-bool KUKA::write(String var_name, String value, bool verbose)
+bool KukaVar::write(String var_name, String value, bool verbose)
 {
     if(!connected())
         return false;
@@ -129,7 +129,7 @@ bool KUKA::write(String var_name, String value, bool verbose)
         _request.push_back(var_name[i]);
     _request.push_back(pack(value_len, 0));
     _request.push_back(pack(value_len, 1));
-    for(int i = 0; i < var_name_len; i++)
+    for(int i = 0; i < value_len; i++)
         _request.push_back(value[i]);
     
     _client->write(_request.data(), _request.size());
@@ -148,7 +148,7 @@ bool KUKA::write(String var_name, String value, bool verbose)
     \brief State of the Socket Connection to the Robot Controller
     \return Connection Status
 */
-bool KUKA::connected()
+bool KukaVar::connected()
 {
     if(_client == nullptr)
         _connected = false;
@@ -160,14 +160,14 @@ bool KUKA::connected()
 /*
     \brief Set the Network Client used to access the Robot Controller
 */
-KUKA& KUKA::setClient(Client& client)
+KukaVar& KukaVar::setClient(Client& client)
 {
     _client = &client;
     return *this;
 }
 
 
-uint8_t KUKA::pack(uint16_t value, int index)
+uint8_t KukaVar::pack(uint16_t value, int index)
 {
     uint8_t array[2];
     array[0] = (value >> 8) & 0xFF;
@@ -176,12 +176,12 @@ uint8_t KUKA::pack(uint16_t value, int index)
     return array[index];
 }
 
-uint16_t KUKA::unpack(uint8_t byte_0, uint8_t byte_1)
+uint16_t KukaVar::unpack(uint8_t byte_0, uint8_t byte_1)
 {
     return (byte_0 << 8) + byte_1;
 }
 
-String KUKA::get_response(bool verbose)
+String KukaVar::get_response(bool verbose)
 {
 #ifdef ESP32
     TickType_t then = xTaskGetTickCount();
@@ -241,7 +241,7 @@ String KUKA::get_response(bool verbose)
         return "ERROR->Client Unavailable";
 }
 
-IPAddress KUKA::parseIP(const char* address)
+IPAddress KukaVar::parseIP(const char* address)
 {
     IPAddress ip;
 	uint16_t acc = 0;
