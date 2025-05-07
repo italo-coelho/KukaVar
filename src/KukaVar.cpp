@@ -272,3 +272,9 @@ IPAddress KukaVar::parseIP(const char* address)
 
 	return ip;
 }
+
+
+KukaProxy KukaVar::operator[](const String& key) 
+{
+    return KukaProxy(key, this);
+}

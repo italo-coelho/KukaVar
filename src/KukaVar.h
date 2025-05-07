@@ -6,9 +6,11 @@
 #include <Arduino.h>
 #include <IPAddress.h>
 
-#define KUKA_TIMEOUT 1000 //miliseconds
-#define CLIENT_TIMEOUT 10 //miliseconds
-#define KUKA_MAX_PACKET 1024 //bytes
+const int KUKA_TIMEOUT = 1000; //ms
+const int CLIENT_TIMEOUT = 10; //ms
+const int KUKA_MAX_PACKET = 1024; //bytes
+
+#include "KukaProxy.h"
 
 class KukaVar
 {
@@ -45,6 +47,8 @@ class KukaVar
         bool write(String var_name, String value, bool verbose = false);
 
         KukaVar& setClient(Client& client);
+
+        KukaProxy operator[](const String& key);
 };
 
-#endif //KUKA_VAR_H
+#endif //!KUKA_VAR_H

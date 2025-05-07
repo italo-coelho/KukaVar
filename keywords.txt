@@ -1,6 +1,6 @@
 # Syntax Coloring Map for KukaVar
 
-KUKA KEYWORD1
+KukaVar KEYWORD1
 
 connect KEYWORD2
 connected KEYWORD2
